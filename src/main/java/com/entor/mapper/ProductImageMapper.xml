@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProductImage">
+	<!-- 根据id查询 -->
+	<select id="queryById" resultType="ProductImage">
+		select * from ProductImage where id = #{id}
+	</select>
+	<!-- 新增 -->
+	<insert id="add" parameterType="ProductImage">
+		insert into ProductImage(pid,type) values(#{pid},#{type})
+	</insert>
+	<!-- 根据id删除 -->
+	<delete id="deleteById">
+		delete from ProductImage where id = #{id}
+	</delete>
+	<!-- 查询所有 -->
+	<select id="queryAll" resultType="ProductImage">
+		select * from ProductImage order by id
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryByPage" parameterType="map" resultType="ProductImage">
+		select * from ProductImage order by id limit #{start},#{pageSize}
+	</select>
+	<!-- 总记录数 -->
+	<select id="getTotals" resultType="int">
+		select count(*) from ProductImage
+	</select>
+	<!-- 修改 -->
+	<update id="update" parameterType="ProductImage">
+		update ProductImage 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="pid!=null and pid!=''">
+				pid = #{pid},
+			</if>
+			<if test="type!=null and type!=''">
+				type = #{type},
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Order">
+	<!-- 根据id查询 -->
+	<select id="queryById" resultType="Order">
+		select * from order_ where id = #{id}
+	</select>
+	<!-- 新增 -->
+	<insert id="add" parameterType="Order">
+		insert into 
+		order_(orderCode,address,post,receiver,mobile,userMessage,createDate,uid,status) 
+		values(#{orderCode},#{address},#{post},#{receiver},#{mobile},#{userMessage},now(),#{uid},#{status})
+	</insert>
+	<!-- 根据id删除 -->
+	<delete id="deleteById">
+		delete from order_ where id = #{id}
+	</delete>
+	<!-- 查询所有 -->
+	<select id="queryAll" resultType="Order">
+		select * from order_ order by id
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryByPage" parameterType="map" resultType="Order">
+		select * from order_ order by id limit #{start},#{pageSize}
+	</select>
+	<!-- 总记录数 -->
+	<select id="getTotals" resultType="int">
+		select count(*) from order_
+	</select>
+	<!-- 修改 -->
+	<update id="update" parameterType="Order">
+		update order_ 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="orderCode!=null and orderCode!=''">
+				orderCode = #{orderCode},
+			</if>
+			<if test="address!=null and address!=''">
+				address = #{address},
+			</if>
+			<if test="post!=null and post!=''">
+				post = #{post},
+			</if>
+			<if test="receiver!=null and receiver!=''">
+				receiver = #{receiver},
+			</if>
+			<if test="mobile!=null and mobile!=''">
+				mobile = #{mobile},
+			</if>
+			<if test="userMessage!=null and userMessage!=''">
+				userMessage = #{userMessage},
+			</if>
+			<if test="uid!=null and uid!=''">
+				uid = #{uid},
+			</if>
+			<if test="status!=null and status!=''">
+				status = #{status},
+			</if>
+		</trim>
+		where id = #{id}
+		<!-- update Category set username = #{username},password = #{password} where id = #{id} -->
+	</update>
+</mapper>

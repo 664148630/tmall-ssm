@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Product">
+	<!-- 根据id查询 -->
+	<select id="queryById" resultType="Product">
+		select * from Product where id = #{id}
+	</select>
+	<!-- 新增 -->
+	<insert id="add" parameterType="Product">
+		insert into 
+		Property(name,subTitle,orignalPrice,promotePrice,stock,cid,createDate) 
+		values(#{name},#{subTitle},#{orignalPrice},#{promotePrice},#{stock},#{cid},now())
+	</insert>
+	<!-- 根据id删除 -->
+	<delete id="deleteById">
+		delete from Product where id = #{id}
+	</delete>
+	<!-- 查询所有 -->
+	<select id="queryAll" resultType="Product">
+		select * from Product order by id
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryByPage" parameterType="map" resultType="Product">
+		select * from Product order by id limit #{start},#{pageSize}
+	</select>
+	<!-- 总记录数 -->
+	<select id="getTotals" resultType="int">
+		select count(*) from Product
+	</select>
+	<!-- 获取指定类别下所有属性总记录数 -->
+	<select id="getTotalsByCid" resultType="int">
+		select count(*) from Product where cid = #{cid}
+	</select>
+	<!-- 根据产品类别编号查询属性 -->
+	<select id="queryProductsByCid" parameterType="map" resultType="Product">
+		select * from Product where cid = #{cid} order by id desc limit #{currentPage},#{pageSize}
+	</select>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="Product">
+		update Product 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name!=null and name!=''">
+				name = #{name},
+			</if>
+			<if test="subTitle!=null and subTitle!=''">
+				subTitle = #{subTitle},
+			</if>
+			<if test="orignalPrice!=null and orignalPrice!=''">
+				orignalPrice = #{orignalPrice},
+			</if>
+			<if test="promotePrice!=null and promotePrice!=''">
+				promotePrice = #{promotePrice},
+			</if>
+			<if test="stock!=null and stock!=''">
+				stock = #{stock},
+			</if>
+			<if test="cid!=null and cid!=''">
+				cid = #{cid},
+			</if>
+		</trim>
+		where id = #{id}
+		<!-- update Category set username = #{username},password = #{password} where id = #{id} -->
+	</update>
+</mapper>

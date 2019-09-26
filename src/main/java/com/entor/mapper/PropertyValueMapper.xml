@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PropertyValue">
+	<!-- 根据id查询 -->
+	<select id="queryById" resultType="PropertyValue">
+		select * from PropertyValue where id = #{id}
+	</select>
+	<!-- 新增 -->
+	<insert id="add" parameterType="PropertyValue">
+		insert into PropertyValue(pid,ptid,value) values(#{pid},#{ptid},#{value})
+	</insert>
+	<!-- 根据id删除 -->
+	<delete id="deleteById">
+		delete from PropertyValue where id = #{id}
+	</delete>
+	<!-- 查询所有 -->
+	<select id="queryAll" resultType="PropertyValue">
+		select * from PropertyValue order by id
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryByPage" parameterType="map" resultType="PropertyValue">
+		select * from PropertyValue order by id limit #{start},#{pageSize}
+	</select>
+	<!-- 总记录数 -->
+	<select id="getTotals" resultType="int">
+		select count(*) from PropertyValue
+	</select>
+	<!-- 修改 -->
+	<update id="update" parameterType="PropertyValue">
+		update PropertyValue 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="pid!=null and pid!=''">
+				pid = #{pid},
+			</if>
+			<if test="ptid!=null and ptid!=''">
+				ptid = #{ptid},
+			</if>
+			<if test="value!=null and value!=''">
+				value = #{value},
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+</mapper>

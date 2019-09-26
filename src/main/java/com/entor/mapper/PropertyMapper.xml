@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Property">
+	<!-- 根据id查询 -->
+	<select id="queryById" resultType="Property">
+		select * from Property where id = #{id}
+	</select>
+	<!-- 新增 -->
+	<insert id="add" parameterType="Property">
+		insert into 
+		Property(cid,name) 
+		values(#{cid},#{name})
+	</insert>
+	<!-- 根据id删除 -->
+	<delete id="deleteById">
+		delete from Property where id = #{id}
+	</delete>
+	<!-- 查询所有 -->
+	<select id="queryAll" resultType="Property">
+		select * from Property order by id
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryByPage" parameterType="map" resultType="Property">
+		select * from Property order by id limit #{start},#{pageSize}
+	</select>
+	<!-- 总记录数 -->
+	<select id="getTotals" resultType="int">
+		select count(*) from Property
+	</select>
+	<!-- 获取指定类别下所有属性总记录数 -->
+	<select id="getTotalsByCid" resultType="int">
+		select count(*) from property where cid = #{cid}
+	</select>
+	<!-- 根据产品类别编号查询属性 -->
+	<select id="queryPropertysByCid" parameterType="map" resultType="Property">
+		select * from property where cid = #{cid} order by id desc limit #{currentPage},#{pageSize}
+	</select>
+	<!-- 修改 -->
+	<update id="update" parameterType="Property">
+		update Property 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="cid!=null and cid!=''">
+				cid = #{cid},
+			</if>
+			<if test="name!=null and name!=''">
+				name = #{name},
+			</if>
+			
+		</trim>
+		where id = #{id}
+		<!-- update Category set username = #{username},password = #{password} where id = #{id} -->
+	</update>
+	
+</mapper>
